@@ -18,7 +18,12 @@ table 50130 "Customer Order"
         field(3; "Order Series"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = "No. Series";
+            Editable = false;
+        }
+        field(4; "Order date"; Date)
+        {
+            DataClassification = ToBeClassified;
+
         }
     }
 
@@ -37,9 +42,13 @@ table 50130 "Customer Order"
 
     var
         myNoSeries: Codeunit "No. Series";
+        myRec: Record "Customer Order Setup";
+        orderSeries: Code[20];
 
     trigger OnInsert()
     begin
+        if myRec.Get('Setup') then
+            "Order Series" := myRec."Default Code Series";
         if "Order Number" = '' then begin
             TestField("Order Series");
             "Order Number" := myNoSeries.GetNextNo("Order Series", WorkDate(), true);

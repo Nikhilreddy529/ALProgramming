@@ -9,12 +9,16 @@ page 50131 "Customer Order Card"
     {
         area(Content)
         {
-            group(Orders)
+            group("Order")
             {
+                Visible = pageVisibility;
                 field("Order Number"; Rec."Order Number")
                 {
                     Caption = 'Order Number';
                 }
+            }
+            group("Orders Details")
+            {
                 field("Order Name"; Rec."Order Name")
                 {
                     Caption = 'Order Name';
@@ -22,10 +26,22 @@ page 50131 "Customer Order Card"
                 field("Order Series"; Rec."Order Series")
                 {
                     Caption = 'Order Series';
+                    Visible = pageVisibility;
+                }
+                field("Order date"; Rec."Order date")
+                {
+                    Caption = 'Order Date';
                 }
             }
         }
     }
+    trigger OnAfterGetRecord()
+    begin
+        pageVisibility := CurrPage.Editable;
+    end;
 
+
+    var
+        pageVisibility: Boolean;
 
 }
